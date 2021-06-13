@@ -47,7 +47,7 @@ std::vector<std::unique_ptr<ExampleType>> GetList() {
 }
 
 int unique_ptr_main(int argc, wchar_t* argv[]) {
-    std::cout << std::endl << "unique_ptr.cpp" << std::endl;
+    std::cout << std::endl << __FILE__ << std::endl;
 
     auto demo = std::make_unique<ExampleType>(1, "function scope", "demo item" );
 

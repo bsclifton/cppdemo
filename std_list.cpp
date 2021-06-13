@@ -6,22 +6,33 @@ struct borg {
     int id;
     std::string designation;
 
-    //explicit borg(int a, std::string b) { id = a; designation = b; }
+    borg() = delete;
+    borg(const borg& copy) {
+        this->id = copy.id;
+        this->designation = copy.designation;
+        std::cout << "copied\n";
+    }
+    borg(int a, std::string b) { id = a; designation = b; std::cout << "created\n"; }
+    ~borg() { std::cout << "~destroyed\n"; }
 };
 
 int std_list_main(int argc, wchar_t* argv[]) {
-    std::cout << std::endl << "std_list.cpp" << std::endl;
+    std::cout << std::endl << __FILE__ << std::endl;
 
     std::list<struct borg> collective = {
-        {1, "1 of 2"},
-        {2, "2 of 2"},
+        borg(1, "1 of 2"),
+        borg(2, "2 of 2"),
     };
 
-    // TEST: does modifying front() modify the reference in the container?
-    struct borg abc = collective.front();
+    // front() does return a reference which can be modified
+    struct borg& abc = collective.front();
     abc.designation = "OMG";
 
-    for (auto item : collective) {
+    // ignored when reference not set
+    struct borg def = collective.front();
+    def.id = 5;
+
+    for (auto& item : collective) {
         std::cout << "id=" << item.id << "; designation=" << item.designation << std::endl;
     }
 

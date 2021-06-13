@@ -24,7 +24,10 @@
     <ClCompile Include="std_list.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="std_bind.cpp">
+    <ClCompile Include="functional.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tuple.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
