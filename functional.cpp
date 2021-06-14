@@ -1,7 +1,5 @@
 #include <iostream>
-#include <vector>
 #include <functional>
-#include <numeric>
 
 void demo(int a, int b) {
 	std::cout << "demo] " << a << " + " << b << " = " << (a + b) << std::endl;
@@ -12,11 +10,27 @@ void demo_ref(int& a, int& b) {
 	b++;
 }
 
-class ExampleType {
+class ExampleObject {
 public:
-	int value;
+	int id;
+	ExampleObject(int object_id) {
+		id = object_id;
+	}
+	virtual void print() {
+		std::cout << "[ExampleObject id=" << id << "]" << std::endl;
+	}
+	int method_with_arg(int a) {
+		return id + a;
+	}
 };
 
+class ExampleDerivedObject : public ExampleObject {
+public:
+	ExampleDerivedObject(int object_id) : ExampleObject(object_id) {}
+	void print() {
+		std::cout << "[ExampleDerivedObject id=" << id << "]" << std::endl;
+	}
+};
 
 using namespace std::placeholders;
 
@@ -55,25 +69,19 @@ int functional_main(int argc, wchar_t* argv[]) {
 
 
 	// another interesting one; mem_fn
-	// 
-	// can be demonstrated via several ways to call accumulate
-	std::vector<ExampleType> items = {
-		{4}, {2}, {10}
-	};
+	// you can get a reference to a method without the instance
+	ExampleObject a(1);
+	ExampleDerivedObject b(2);
 
-	int total;
-	
-	//bad (mem_fn is deprecated; don't use!)
-	//total = std::accumulate(items.begin(), items.end(), 0, std::mem_fn(&ExampleType::value));
+	auto example = std::mem_fn(&ExampleObject::print);
+	// it works kind of similar (IMO) to apply in JavaScript
+	example(a);
+	// mem_fn is smart enough to work out derived types
+	example(b);
 
-	// better
-	total = std::accumulate(items.begin(), items.end(), 0, [&](int a, ExampleType b) { return a + b.value; });
-
-	// best
-	total = 0;
-	for (auto item : items) {
-		total += item.value;
-	}
+	// you can call with args and also capture return values
+	auto example2 = std::mem_fn(&ExampleObject::method_with_arg);
+	std::cout << "example2 with instance `a` and arg `5` returned " << example2(a, 5) << std::endl;
 
 	return 0;
 }

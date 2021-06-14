@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="functional.cpp" />
+    <ClCompile Include="numeric.cpp" />
     <ClCompile Include="std_list.cpp" />
     <ClCompile Include="tuple.cpp" />
     <ClCompile Include="unique_ptr.cpp" />
