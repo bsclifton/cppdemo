@@ -10,8 +10,7 @@ extern int std_list_main(int argc, wchar_t* argv[]);
 extern int functional_main(int argc, wchar_t* argv[]);
 extern int tuple_main(int argc, wchar_t* argv[]);
 extern int numeric_main(int argc, wchar_t* argv[]);
-
-
+extern int inheritance_main(int argc, wchar_t* argv[]);
 // ..
 
 int wmain(int argc, wchar_t* argv[]) {
@@ -20,7 +19,7 @@ int wmain(int argc, wchar_t* argv[]) {
 	functional_main(argc, argv);
 	tuple_main(argc, argv);
 	numeric_main(argc, argv);
+	inheritance_main(argc, argv);
 	// ..
-
 	return 0;
 }
