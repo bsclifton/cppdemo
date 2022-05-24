@@ -11,7 +11,8 @@ extern int functional_main(int argc, wchar_t* argv[]);
 extern int tuple_main(int argc, wchar_t* argv[]);
 extern int numeric_main(int argc, wchar_t* argv[]);
 extern int inheritance_main(int argc, wchar_t* argv[]);
-// ..
+extern int constructor_main(int argc, wchar_t* argv[]);
+extern void InstructionSet_main();
 
 int wmain(int argc, wchar_t* argv[]) {
 	unique_ptr_main(argc, argv);
@@ -20,6 +21,8 @@ int wmain(int argc, wchar_t* argv[]) {
 	tuple_main(argc, argv);
 	numeric_main(argc, argv);
 	inheritance_main(argc, argv);
-	// ..
+	constructor_main(argc, argv);
+	InstructionSet_main();
+	
 	return 0;
 }

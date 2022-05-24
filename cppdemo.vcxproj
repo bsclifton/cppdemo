@@ -139,7 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="constructor.cpp" />
     <ClCompile Include="inheritance.cpp" />
+    <ClCompile Include="InstructionSet.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="functional.cpp" />
     <ClCompile Include="numeric.cpp" />
