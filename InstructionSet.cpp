@@ -254,6 +254,46 @@ const InstructionSet::InstructionSet_Internal InstructionSet::CPU_Rep;
 
 // Print out supported instruction set extensions
 // BSC]] START
+//typedef uint16_t u16;
+typedef uint8_t u8;
+typedef uint64_t u64;
+//typedef unsigned long gva_t;
+//#define VMX_NR_VPIDS				(1 << 16)
+#define VMX_VPID_EXTENT_INDIVIDUAL_ADDR		0
+#define VMX_VPID_EXTENT_SINGLE_CONTEXT		1
+#define VMX_VPID_EXTENT_ALL_CONTEXT		    2
+//#define VMX_VPID_EXTENT_SINGLE_NON_GLOBAL	3
+// see https://www.felixcloutier.com/x86/invvpid for opcode info
+//#define ASM_VMX_INVVPID		  ".byte 0x66, 0x0f, 0x38, 0x81, 0x08"
+
+//shout out to https://github.com/wbenny/hvpp
+// and https://github.com/asamy/ksm/blob/6ef52b87903b25c62560d80e8fbec0867e5c2a8b/vmx.h
+//enum class invvpid_t : uint32_t {
+//    individual_address = 0x00000000,
+//    single_context = 0x00000001,
+//    all_contexts = 0x00000002,
+//    single_context_retaining_globals = 0x00000003,
+//};
+//struct invvpid_desc_t {
+//    uint64_t vpid : 16;
+//    uint64_t reserved : 48;
+//    uint64_t linear_address;
+//};
+typedef struct {
+    u64 vpid : 16;
+    u64 rsvd : 48;
+    u64 gva;
+} invvpid_t;
+
+extern "C" {
+    u8 __invvpid(u64 type, const invvpid_t* i);
+}
+
+inline u8 invvpid(u64 type) {
+    static invvpid_t demo = { 0, 0, 0 };
+    return __invvpid(type, &demo);
+}
+
 // rename main() => InstructionSet_main() and change return type to void
 void InstructionSet_main() {
     std::cout << std::endl << __FILE__ << std::endl;
@@ -279,8 +319,11 @@ void InstructionSet_main() {
         outstream << "UmIsVirtualized = " << values.UmIsVirtualized_ << std::endl;
         outstream << "END - Chromium Base::CPU fields" << std::endl;
     };
-
+    u8 val = invvpid(VMX_VPID_EXTENT_ALL_CONTEXT);
+    outstream << "invvpid returned " << val << std::endl;
     dump_chromium(InstructionSet::ChromiumValues());
+
+
 // BSC]] END
 
     std::cout << InstructionSet::Vendor() << std::endl;
