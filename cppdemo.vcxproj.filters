@@ -42,6 +42,9 @@
     <ClCompile Include="constructor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="decltype.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="asm.asm">

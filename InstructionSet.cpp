@@ -22,6 +22,8 @@ enum HYPERVStatus {
     STATUS_HV_NOT_PRESENT
 };
 
+//NOTE: this is returning true when you turn on virtualization in bios
+// you can check that by pulling up task manager and viewing performance tab
 unsigned long UmIsVirtualized(void) {
     unsigned int invalid_leaf = 0x13371337;
     unsigned int valid_leaf = 0x40000000;
@@ -254,6 +256,7 @@ const InstructionSet::InstructionSet_Internal InstructionSet::CPU_Rep;
 
 // Print out supported instruction set extensions
 // BSC]] START
+// EXPERIMENTAL CODE TO CALL invvpid instruction
 //typedef uint16_t u16;
 typedef uint8_t u8;
 typedef uint64_t u64;
@@ -319,8 +322,9 @@ void InstructionSet_main() {
         outstream << "UmIsVirtualized = " << values.UmIsVirtualized_ << std::endl;
         outstream << "END - Chromium Base::CPU fields" << std::endl;
     };
-    u8 val = invvpid(VMX_VPID_EXTENT_ALL_CONTEXT);
-    outstream << "invvpid returned " << val << std::endl;
+    // experimental code to call invvpid instruction (clearing TLB)
+    //u8 val = invvpid(VMX_VPID_EXTENT_ALL_CONTEXT);
+    //outstream << "invvpid returned " << val << std::endl;
     dump_chromium(InstructionSet::ChromiumValues());
 
 
